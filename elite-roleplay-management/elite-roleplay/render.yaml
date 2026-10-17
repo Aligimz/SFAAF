@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: elite-roleplay-management
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: elite-roleplay-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SETUP_KEY
+        sync: false
+
+databases:
+  - name: elite-roleplay-db
+    plan: basic-256mb
+    databaseName: elite_roleplay
+    user: elite_roleplay_user
